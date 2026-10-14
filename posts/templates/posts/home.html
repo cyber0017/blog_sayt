@@ -1,6 +1,26 @@
-<h1>Mening shaxsiy blogim</h1>
-{% for post in posts %}
-  <h2><a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a></h2>
-  <p>{{ post.content|truncatewords:20 }}</p>
-  <small>{{ post.created_at }}</small>
-{% endfor %}
+{% extends 'posts/base.html' %}
+
+{% block content %}
+<h1 class="fw-bold mb-4">So'nggi postlar</h1>
+
+<div class="row g-4">
+  {% for post in posts %}
+  <div class="col-md-6 col-lg-4">
+    <div class="card post-card shadow-sm h-100">
+      <div class="card-body p-4">
+        <h4 class="card-title fw-bold">
+          <a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a>
+        </h4>
+        <p class="card-text text-muted">{{ post.content|truncatewords:20 }}</p>
+      </div>
+      <div class="card-footer bg-transparent border-0 px-4 pb-4 d-flex justify-content-between align-items-center">
+        <small class="text-muted">{{ post.created_at|date:"d.m.Y" }}</small>
+        <a href="{% url 'post_detail' post.pk %}" class="btn btn-sm btn-primary rounded-pill px-3">O'qish →</a>
+      </div>
+    </div>
+  </div>
+  {% empty %}
+  <p class="text-muted">Hozircha postlar yo'q. Admin panel orqali post qo'shing.</p>
+  {% endfor %}
+</div>
+{% endblock %}
